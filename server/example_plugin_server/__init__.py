@@ -39,6 +39,7 @@ class ExampleServiceMessageStream(MessageStream):
 
         #TODO: input is labeled as bytes, but it is actually a java byte array -> bug to be fixed... line below must also be fixed
 
+        # Deserialize the input JSON bytes
         input_string = bytes(payload).decode("utf-8")
         print(f"Received data from client: {input_string}")
         inputs = json.loads(input_string)
