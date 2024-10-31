@@ -41,6 +41,8 @@ class ExampleServiceProxy(server_object.ServerObject):
 
         self.plugin_client.req_stream.write(input_bytes, input_references)
         result_bytes, result_references = next(self.plugin_client.resp_stream)
+
+        # Deserialize the results from JSON bytes
         results = json.loads(result_bytes.decode("utf-8"))
 
         if 'error' in results:
@@ -63,6 +65,8 @@ class ExampleServiceProxy(server_object.ServerObject):
 
         self.plugin_client.req_stream.write(input_bytes, input_references)
         result_bytes, result_references = next(self.plugin_client.resp_stream)
+        
+        # Deserialize the results from JSON bytes
         results = json.loads(result_bytes.decode("utf-8"))
 
         if 'error' in results:
