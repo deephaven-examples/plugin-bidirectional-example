@@ -1,0 +1,28 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        credentials {
+            username = artifactoryUser ?: System.getProperty('user.name')
+            password = artifactoryAPIKey ?: ''
+        }
+        url "https://illumon.jfrog.io/illumon/libs-customer"
+    }
+}
+
+def dhcVersion="0.39.0"
+def dheVersion="1.20240517.475"
+dependencies {
+    runtimeOnly "io.deephaven:deephaven-log-to-slf4j:${dhcVersion}"
+    implementation "info.picocli:picocli:4.6.1"
+    implementation "io.deephaven:deephaven-plugin:${dhcVersion}"
+
+    implementation "iris:client-barrage:$dheVersion"
+
+    implementation 'com.google.auto.service:auto-service:1.1.1'
+    annotationProcessor 'com.google.auto.service:auto-service:1.1.1'
+    implementation 'org.json:json:20250517'
+}
