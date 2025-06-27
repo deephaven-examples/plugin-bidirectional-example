@@ -22,3 +22,25 @@ Example program arguments:
 ```text
 --url https://my.host.com:8123 --keyfile mykey.file --pqname PluginServerPQ
 ```
+
+
+
+## Python Core+ Plugin Example
+
+The Core+ Plugin Example is a simple Deephaven bidirectional plugin that demonstrates how to send a message from your client to a Deephaven Persistent Query, process the message inside the Persistent Query, and send a Table back to the client.
+
+### Getting Started
+
+1. Navigate to enterprise-example/src/main/python and run `python3 -m build` to build the plugin whl.
+2. Deploy this package to your Deephaven installation by installing it in the latest Core+ venv (`/usr/illumon/coreplus/venv/latest`).
+
+```text
+$ pip list
+Package                         Version
+------------------------------- --------------
+...
+deephaven-ent-plugin            0.0.1
+```
+
+3. Open the Deephaven Web UI and create a new Persistent Query with the script in `example_server.py`.
+4. Once the PQ is running, try running the `example_client.py`. You will need to have installed the Core+ Python client package https://deephaven.io/enterprise/docs/clients/python/coreplus-python-client/

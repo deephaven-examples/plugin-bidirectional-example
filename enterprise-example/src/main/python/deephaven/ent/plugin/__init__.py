@@ -30,7 +30,6 @@ class IncrementPlugin(BidirectionalObjectType):
 
     def increment_table(self, data: int) -> Table:
         """ Returns a table with one cell, the integer + 1. """
-        print(f"IncrementPlugin: increment_table called with data: {data}")
         return new_table([int_col("ResultValue", [data + 1])])
 
 
@@ -47,12 +46,9 @@ class IncrementPluginMessageStream(MessageStream):
     def on_data(self, payload: bytes, references: List[Any]):
         """ Called when the client sends a message to the server. """
 
-        #TODO: input is labeled as bytes, but it is actually a java byte array -> bug to be fixed... line below must also be fixed
-
         # Deserialize the input JSON bytes
         input_string = bytes(payload).decode("utf-8")
         inputs = json.loads(input_string)
-        print(f"IncrementPlugin: Received data from client: {input_string}")
 
         result_references = []
         result_payload = {}
@@ -63,11 +59,9 @@ class IncrementPluginMessageStream(MessageStream):
                 print("Message missing 'value' key. Ignoring.")
         except Exception as e:
             result_payload["error"] = traceback.format_exc()
-            print(f"IncrementPlugin: Error processing message: {result_payload['error']}")
 
         # Serialize the result payload to JSON bytes
         json_string = json.dumps(result_payload).encode("utf-8")
-        print(f"IncrementPlugin: Sending result to client: {json_string.decode('utf-8')}, Result references: {result_references}")
         self.client_connection.on_data(payload=json_string, references=result_references)
 
     def on_close(self):
