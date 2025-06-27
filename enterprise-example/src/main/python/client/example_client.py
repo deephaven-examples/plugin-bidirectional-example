@@ -1,0 +1,28 @@
+
+""" This module provides a client-side interface to the ExampleService server-side object. """
+
+import json
+from deephaven_enterprise.client.session_manager import SessionManager
+
+connection_info = "https://devonavm-griz475.int.illumon.com:8123/iris/connection.json"
+session_mgr: SessionManager = SessionManager(connection_info)
+session_mgr.password("iris", "iris")
+
+session = session_mgr.connect_to_persistent_query("Core+ Python PQ")
+# Get a ticket for an ExampleService object from the server named "example_service"
+example_service_ticket = session.exportable_objects["example_service"]
+
+# Wrap the ticket as a PluginClient
+example_service_plugin_client = session.plugin_client(example_service_ticket)
+
+# serialize the inputs to JSON bytes
+inputs = {'value': '15'}
+input_bytes = json.dumps(inputs).encode("utf-8")
+references = []
+
+example_service_plugin_client.req_stream.write(input_bytes, references)
+result_bytes, result_references = next(example_service_plugin_client.resp_stream)
+
+# fetch and print the result table
+print(result_references[0].fetch().to_arrow())
+
