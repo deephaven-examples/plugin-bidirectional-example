@@ -54,6 +54,7 @@ public class IncrementPlugin extends ObjectTypeBase {
 
             final Table resultTable = TableTools.newTable(TableTools.intCol(TABLE_COL, resultInteger));
 
+            // Send a reference to the table to the client
             payload.flip();
             connection.onData(payload, resultTable);
         }

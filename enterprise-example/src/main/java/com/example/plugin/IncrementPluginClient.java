@@ -24,6 +24,7 @@ public class IncrementPluginClient {
     private final CompletableFuture<TicketTable> result = new CompletableFuture<>();
 
     public IncrementPluginClient(final Session session, final String holderVarNameOnServer) throws ExecutionException, InterruptedException {
+        // Variable name must match the server-side variable name used in the persistent query. See ExampleServerPQ.groovy
         final HasTypedTicket typedTicket = new ScopeId(holderVarNameOnServer).ticketId().toTypedTicket(PLUGIN_NAME);
         final ServerObject serverObject = session.export(typedTicket).get();
 
@@ -56,6 +57,7 @@ public class IncrementPluginClient {
         public void onData(final ServerData serverData) {
             final ByteBuffer payload = serverData.data();
 
+            // Check if this is the first message received (which should be empty)
             if (firstReceived.isFalse()) {
                 if (payload.hasRemaining()) {
                     result.completeExceptionally(new IllegalStateException("Expected empty first payload."));

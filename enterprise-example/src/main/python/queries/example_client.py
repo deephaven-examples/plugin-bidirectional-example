@@ -1,4 +1,4 @@
-""" This module provides a client-side interface to the ExampleService server-side object. """
+""" This module provides a client-side interface to the IncrementPlugin server-side object. """
 
 import json
 from deephaven_enterprise.client.session_manager import SessionManager
@@ -8,7 +8,7 @@ session_mgr: SessionManager = SessionManager(connection_info)
 session_mgr.private_key("/path-to-private-key/priv-username.base64.txt")
 
 session = session_mgr.connect_to_persistent_query("MY PQ")
-# Get a ticket for an ExampleService object from the server named "example_service"
+# Get a ticket for an IncrementPlugin object from the server named "example_service"
 example_service_ticket = session.exportable_objects["example_service"]
 
 # Wrap the ticket as a PluginClient

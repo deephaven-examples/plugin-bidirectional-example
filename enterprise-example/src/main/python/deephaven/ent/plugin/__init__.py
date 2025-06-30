@@ -61,6 +61,7 @@ class IncrementPluginMessageStream(MessageStream):
             result_payload["error"] = traceback.format_exc()
 
         # Serialize the result payload to JSON bytes
+        # Send a reference to the table to the client
         json_string = json.dumps(result_payload).encode("utf-8")
         self.client_connection.on_data(payload=json_string, references=result_references)
 

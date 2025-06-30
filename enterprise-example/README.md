@@ -4,7 +4,18 @@ The Core+ Plugin Example is a simple Deephaven bidirectional plugin that demonst
 
 ### Getting Started
 
-1. Run `./gradlew build` to build the plugin jar.
+1. Run `./gradlew build` to build the plugin jar. The IncrementPlugin class has the following annotation:
+```java
+@AutoService(ObjectType.class)
+```
+This configures the plugin as a service-provider, which is required to register the plugin inside Deephaven. If the jar is built correctly, you will see the following file in the jar:
+```text
+META-INF/services/io.deephaven.plugin.type.ObjectType
+```
+Which will contain a single line with the fully qualified class name of the plugin:
+```text
+com.example.plugin.IncrementPlugin
+```
 2. Deploy this jar to your Deephaven installation by copying it to the `/usr/illumon/coreplus/latest/custom_lib/` directory. This example also requires the `org.json:json` dependency specified in `build.gradle`.
 
 ```text
@@ -31,7 +42,13 @@ The Core+ Plugin Example is a simple Deephaven bidirectional plugin that demonst
 
 ### Getting Started
 
-1. Navigate to enterprise-example/src/main/python and run `python3 -m build` to build the plugin whl.
+1. Navigate to enterprise-example/src/main/python and run `python3 -m build` to build the plugin whl. Note the following line in the setup.cfg file:
+```text
+[options.entry_points]
+deephaven.plugin =
+    registration_cls = deephaven.ent.plugin._register:IncrementPluginRegistration
+```
+This entry point is required to register the plugin inside Deephaven.
 2. Deploy this package to your Deephaven installation by installing it in the latest Core+ venv (`/usr/illumon/coreplus/venv/latest`).
 
 ```text
