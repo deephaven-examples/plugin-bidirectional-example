@@ -1,0 +1,34 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        credentials {
+            username = artifactoryUser ?: System.getProperty('user.name')
+            password = artifactoryAPIKey ?: ''
+        }
+        url "https://illumon.jfrog.io/illumon/libs-customer"
+    }
+}
+
+def dhcVersion="0.39.0"
+def dheVersion="1.20240517.475"
+dependencies {
+    // DHC requirements
+    runtimeOnly "io.deephaven:deephaven-log-to-slf4j:${dhcVersion}"
+    implementation "io.deephaven:deephaven-plugin:${dhcVersion}"
+
+    // DHE requirements
+    implementation "iris:client-barrage:$dheVersion"
+
+    // third party
+    implementation 'org.json:json:20250517'
+    implementation "info.picocli:picocli:4.6.1"
+
+    // These are required to generate the plugin service
+    // See the @AutoService(ObjectType.class) in IncrementPlugin.java
+    implementation 'com.google.auto.service:auto-service:1.1.1'
+    annotationProcessor 'com.google.auto.service:auto-service:1.1.1'
+}
